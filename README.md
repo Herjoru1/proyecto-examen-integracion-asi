@@ -1,8 +1,8 @@
 # Proyecto final de Integración de Servicios Web
 
-Servidor A para el examen de integración de conocimientos. Nginx recibe HTTPS en `proyecto.final.asi`, la aplicación de inventario usa Express y PostgreSQL, y OpenSSH presta SFTP en una jaula para la cuenta `web`. Los cuatro servicios se ejecutan con Docker Compose en la misma VM Ubuntu.
+Servidor A para el examen de integración de conocimientos. Apache HTTP Server recibe HTTPS en `proyecto.final.asi`, la aplicación de inventario usa Express y PostgreSQL, y OpenSSH presta SFTP en una jaula para la cuenta `web`. Apache sirve los archivos estáticos y funciona como proxy inverso de Express mediante `mod_proxy_http`. Los cuatro servicios se ejecutan con Docker Compose en la misma VM Ubuntu.
 
-- **443/TCP** · HTTPS mediante Nginx. Node y PostgreSQL solo tienen acceso en la red de Compose.
+- **443/TCP** · HTTPS mediante Apache HTTP Server. Node y PostgreSQL solo tienen acceso en la red de Compose.
 - **2222/TCP** · SFTP como `web`, con llave Ed25519, en `/entrega` y sin terminal.
 - **Usuarios web** · `admin` ve Artículos y Existencias. `consulta` ve Artículos. El servidor comprueba el rol al abrir Existencias y devuelve HTTP 403 a Consulta.
 - **PostgreSQL** · guarda roles, usuarios, sesiones y la tabla `articulos` con `id_articulo`, `nombre`, `precio` y `elementos_existentes`. Los datos iniciales vienen del parcial.
@@ -13,7 +13,7 @@ Se necesita Docker Engine con Compose v2, Python 3, OpenSSL, OpenSSH cliente y a
 
 ```bash
 ./scripts/preparar.sh --modo-examen
-docker compose up -d --build --wait
+docker compose up -d --build --wait --remove-orphans
 docker compose ps
 ./scripts/accesos.sh
 ```
@@ -48,7 +48,7 @@ Para mover toda la aplicación a otra máquina con Docker, usa el ZIP o clona es
 
 | Puntos | Demostración |
 | --- | --- |
-| 1, 2 y 3 | Ejecuta `docker compose ps`, abre el dominio en el navegador y muestra la comprobación TLS. |
+| 1, 2 y 3 | Ejecuta `docker compose exec apache httpd -S`, abre el dominio en el navegador y muestra la comprobación TLS. |
 | 4 | Ejecuta la consulta de PostgreSQL que aparece abajo para mostrar el motor, los roles y el esquema. |
 | 5 y 6 | Entra como `consulta` y muestra el listado y su menú. Entra como `admin` y abre Existencias. |
 | 7 y 8 | Entra por SFTP, muestra `pwd` y `ls`, y sube un archivo a `/entrega`. Ejecuta `./scripts/verificar.sh` para demostrar además que no hay terminal, comandos remotos ni autenticación SSH por contraseña. |
@@ -72,16 +72,16 @@ Para demostrar el acceso administrativo en consola, ejecuta `docker compose exec
 
 ### Método de medición
 
-El perfil ejecuta cada ruta en secuencia. Obtiene la mediana del tiempo de ejecución y del tiempo de CPU del proceso Node, el pico observado de memoria residente (RSS) y el mayor aumento sobre la memoria al comenzar la ruta. La RSS se muestrea cada 5 ms y se lee al entrar y salir. Puede incluir asignaciones de otras solicitudes previas o del runtime y no contabiliza la memoria de PostgreSQL o Nginx. Por eso se muestran el pico del proceso y el aumento observado por separado.
+El perfil ejecuta cada ruta en secuencia. Obtiene la mediana del tiempo de ejecución y del tiempo de CPU del proceso Node, el pico observado de memoria residente (RSS) y el mayor aumento sobre la memoria al comenzar la ruta. La RSS se muestrea cada 5 ms y se lee al entrar y salir. Puede incluir asignaciones de otras solicitudes previas o del runtime y no contabiliza la memoria de PostgreSQL o Apache HTTP Server. Por eso se muestran el pico del proceso y el aumento observado por separado.
 
 La prueba de carga activa sesiones simultáneas en oleadas. Cada usuario completa por HTTPS el inicio de sesión, consulta el listado y cierra sesión. La capacidad observada es el nivel de concurrencia más alto probado con **cero errores** y un **p95 de hasta 1.500 ms** para el flujo completo. Ese umbral se fijó para la demostración porque la hoja no especifica una latencia objetivo. El resultado corresponde a esta VM y a esta carga. La aplicación tiene un límite de 2 vCPU y 384 MiB, y PostgreSQL de 1 vCPU y 320 MiB.
 
-**Resultado en la VM.** 28 usuarios simultáneos cumplieron el criterio con un p95 de 1.467,63 ms y cero errores. A 30 usuarios el p95 fue de 1.630,37 ms. El inicio de sesión concentró el mayor tiempo de CPU y el mayor aumento de RSS.
+**Resultado en la VM.** 24 usuarios simultáneos cumplieron el criterio con un p95 de 1.376,82 ms y cero errores. A 26 usuarios el p95 fue de 1.694,69 ms. El inicio de sesión concentró el mayor tiempo de CPU y el mayor aumento de RSS.
 
 ## Evidencias y procedencia
 
 - [Verificación funcional](evidencia/verificacion.txt)
 - [Resultados por ruta y nivel de carga](evidencia/mediciones.json)
 - [Portal del administrador](evidencia/administrador.png) y [portal de consulta](evidencia/consulta.png) y [resumen de existencias](evidencia/existencias.png)
-- El proyecto adapta el inventario, la base visual y el patrón Nginx/TLS del [portal administrativo del parcial](https://github.com/nathanbeltran232/Proyecto-Parcial-Integracion-de-Servicios-Web/tree/df6c9a7b4a502fcc4415f17371b7a25b6f0d75cc). Los artículos de ejemplo provienen de su [esquema de inventario](https://github.com/nathanbeltran232/Proyecto-Parcial-Integracion-de-Servicios-Web/blob/f9080ec920d07cc8afc143fe2d416fc67af5b39b/database/schema.sql).
-- Referencias de configuración. [OpenSSH](https://man.openbsd.org/sshd_config), [Docker Compose](https://docs.docker.com/compose/how-tos/startup-order) y [certificados de Chrome en Linux](https://chromium.googlesource.com/chromium/src/+/7cab636ebce4a3d375cf7df2dddb59ce6035f474/docs/linux/cert_management.md).
+- El proyecto adapta el inventario y la base visual del [portal administrativo del parcial](https://github.com/nathanbeltran232/Proyecto-Parcial-Integracion-de-Servicios-Web/tree/df6c9a7b4a502fcc4415f17371b7a25b6f0d75cc). Los artículos de ejemplo provienen de su [esquema de inventario](https://github.com/nathanbeltran232/Proyecto-Parcial-Integracion-de-Servicios-Web/blob/f9080ec920d07cc8afc143fe2d416fc67af5b39b/database/schema.sql).
+- Referencias de configuración. [Proxy inverso de Apache](https://httpd.apache.org/docs/2.4/howto/reverse_proxy.html), [TLS de Apache](https://httpd.apache.org/docs/2.4/mod/mod_ssl.html), [OpenSSH](https://man.openbsd.org/sshd_config), [Docker Compose](https://docs.docker.com/compose/how-tos/startup-order) y [certificados de Chrome en Linux](https://chromium.googlesource.com/chromium/src/+/7cab636ebce4a3d375cf7df2dddb59ce6035f474/docs/linux/cert_management.md).

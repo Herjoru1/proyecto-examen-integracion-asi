@@ -1,5 +1,22 @@
+Server version: Apache/2.4.71 (Unix)
+Server built:   Nov 11 2026 22:59:02
+VirtualHost configuration:
+*:443                  proyecto.final.asi (/usr/local/apache2/conf/extra/asi.conf:7)
+ServerRoot: "/usr/local/apache2"
+Main DocumentRoot: "/usr/local/apache2/htdocs"
+Main ErrorLog: "/proc/self/fd/2"
+Mutex ssl-stapling: using_defaults
+Mutex proxy: using_defaults
+Mutex ssl-cache: using_defaults
+Mutex default: dir="/usr/local/apache2/logs/" mechanism=default
+Mutex ssl-stapling-refresh: using_defaults
+PidFile: "/usr/local/apache2/logs/httpd.pid"
+Define: DUMP_VHOSTS
+Define: DUMP_RUN_CFG
+User: name="www-data" id=82
+Group: name="www-data" id=82
 Chrome validó HTTPS y completó el inicio y cierre de sesión de los dos perfiles.
-Dominio resuelve a 127.0.0.1; TLS valida CA y nombre; formulario HTTP 200
+Dominio resuelve a 127.0.0.1; TLS valida CA y nombre; Apache sirve el formulario con HTTP 200
 Listado protegido; credenciales incorrectas 401; formulario de otro origen 403
 Consulta: inicia sesión, ve los cuatro artículos y recibe 403 en Existencias
 Cerrar sesión invalida la cookie anterior
@@ -10,9 +27,9 @@ sftp> cd /
 sftp> ls
 entrega
 sftp> cd /entrega
-sftp> put /tmp/tmp.jsfA0QFI9v/entrada prueba-1795469322-34705.txt
-sftp> get prueba-1795469322-34705.txt /tmp/tmp.jsfA0QFI9v/salida
-sftp> rm prueba-1795469322-34705.txt
+sftp> put /tmp/tmp.hVWRf42Swy/entrada prueba-1795470186-57611.txt
+sftp> get prueba-1795470186-57611.txt /tmp/tmp.hVWRf42Swy/salida
+sftp> rm prueba-1795470186-57611.txt
 SFTP: llave válida y contenido de subida y descarga idéntico
 Jaula: /etc/passwd del servidor no está disponible para web
 This service allows sftp connections only.

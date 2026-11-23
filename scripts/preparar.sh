@@ -71,8 +71,8 @@ if [[ ! -s "$tls/servidor.crt" || ! -s "$tls/servidor.key" ]] ||
         -subj '/CN=proyecto.final.asi' -keyout "$tls/servidor.key" -out "$tls/servidor.csr"
     openssl x509 -req -sha256 -days 120 -in "$tls/servidor.csr" \
         -CA "$tls/ca.crt" -CAkey "$tls/ca.key" -CAcreateserial -out "$tls/servidor.crt" \
-        -extfile nginx/cert-ext.cnf
+        -extfile apache/cert-ext.cnf
     rm "$tls/servidor.csr"
 fi
 openssl verify -CAfile "$tls/ca.crt" -verify_hostname proyecto.final.asi "$tls/servidor.crt"
-printf 'Configuración preparada. Inicia con docker compose up -d --build --wait\n'
+printf 'Configuración preparada. Inicia con docker compose up -d --build --wait --remove-orphans\n'

@@ -43,18 +43,18 @@ services:
     mem_limit: 384m
     restart: unless-stopped
 
-  nginx:
+  apache:
     build:
       context: .
-      dockerfile: nginx/Dockerfile
+      dockerfile: apache/Dockerfile
     depends_on:
       app:
         condition: service_healthy
     ports:
       - "${IP_ESCUCHA:-127.0.0.1}:443:443"
     volumes:
-      - ./.asilab/tls/servidor.crt:/etc/nginx/tls/servidor.crt:ro
-      - ./.asilab/tls/servidor.key:/etc/nginx/tls/servidor.key:ro
+      - ./.asilab/tls/servidor.crt:/usr/local/apache2/conf/tls/servidor.crt:ro
+      - ./.asilab/tls/servidor.key:/usr/local/apache2/conf/tls/servidor.key:ro
     restart: unless-stopped
 
   sftp:

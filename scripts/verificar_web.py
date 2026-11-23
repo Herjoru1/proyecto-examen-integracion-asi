@@ -7,9 +7,10 @@ def verificar():
     cliente = Cliente()
     credenciales = accesos()
     try:
-        estado, _, texto = cliente.peticion("GET", "/")
+        estado, cabeceras, texto = cliente.peticion("GET", "/")
         assert estado == 200 and "Iniciar sesión" in texto
-        print(f"Dominio resuelve a {direccion}; TLS valida CA y nombre; formulario HTTP 200")
+        assert cabeceras.get("Server") == "Apache"
+        print(f"Dominio resuelve a {direccion}; TLS valida CA y nombre; Apache sirve el formulario con HTTP 200")
 
         estado, cabeceras, _ = cliente.peticion("GET", "/articulos")
         assert estado == 302 and cabeceras["Location"] == "/"
@@ -40,7 +41,9 @@ def verificar():
         estado, _, texto = cliente.peticion("GET", "/existencias")
         assert estado == 200 and "Unidades en inventario" in texto
         assert cliente.peticion("POST", "/salir")[0] == 303
-        assert cliente.peticion("GET", "/estilos.css")[0] == 200
+        estado, cabeceras, texto = cliente.peticion("GET", "/estilos.css")
+        assert estado == 200 and cabeceras.get("Content-Type", "").startswith("text/css")
+        assert ".table-scroll" in texto
         print("Administrador: inicia sesión, ve Artículos y abre Existencias")
     finally:
         cliente.cerrar()

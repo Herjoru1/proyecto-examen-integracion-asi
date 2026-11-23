@@ -1,5 +1,5 @@
 {
-  "fecha_utc": "2026-11-23T21:29:59.147648+00:00",
+  "fecha_utc": "2026-11-23T21:44:26.620595+00:00",
   "objetivo_p95_ms": 1500,
   "flujo_carga": [
     "POST /sesion",
@@ -11,17 +11,17 @@
       "script": "inicio",
       "ruta": "GET /",
       "muestras": 12,
-      "tiempo_mediana_ms": 0.61,
-      "cpu_mediana_ms": 0.57,
-      "ram_rss_max_mib": 82.02,
-      "ram_aumento_max_mib": 0.12
+      "tiempo_mediana_ms": 0.82,
+      "cpu_mediana_ms": 0.62,
+      "ram_rss_max_mib": 82.1,
+      "ram_aumento_max_mib": 0.0
     },
     {
       "script": "iniciar_sesion",
       "ruta": "POST /sesion",
       "muestras": 12,
-      "tiempo_mediana_ms": 101.11,
-      "cpu_mediana_ms": 97.02,
+      "tiempo_mediana_ms": 99.46,
+      "cpu_mediana_ms": 96.36,
       "ram_rss_max_mib": 98.02,
       "ram_aumento_max_mib": 16.0
     },
@@ -29,37 +29,37 @@
       "script": "listar_articulos",
       "ruta": "GET /articulos",
       "muestras": 12,
-      "tiempo_mediana_ms": 3.5,
-      "cpu_mediana_ms": 2.0,
-      "ram_rss_max_mib": 82.08,
-      "ram_aumento_max_mib": 0.12
+      "tiempo_mediana_ms": 4.09,
+      "cpu_mediana_ms": 2.5,
+      "ram_rss_max_mib": 82.2,
+      "ram_aumento_max_mib": 0.25
     },
     {
       "script": "resumen_existencias",
       "ruta": "GET /existencias",
       "muestras": 12,
-      "tiempo_mediana_ms": 3.67,
-      "cpu_mediana_ms": 2.74,
-      "ram_rss_max_mib": 82.21,
-      "ram_aumento_max_mib": 0.25
+      "tiempo_mediana_ms": 4.01,
+      "cpu_mediana_ms": 2.29,
+      "ram_rss_max_mib": 82.2,
+      "ram_aumento_max_mib": 0.12
     },
     {
       "script": "cerrar_sesion",
       "ruta": "POST /salir",
       "muestras": 12,
-      "tiempo_mediana_ms": 2.62,
-      "cpu_mediana_ms": 1.2,
-      "ram_rss_max_mib": 82.33,
-      "ram_aumento_max_mib": 0.0
+      "tiempo_mediana_ms": 2.58,
+      "cpu_mediana_ms": 1.29,
+      "ram_rss_max_mib": 82.2,
+      "ram_aumento_max_mib": 0.12
     },
     {
       "script": "comprobar_salud",
       "ruta": "GET /salud",
       "muestras": 12,
-      "tiempo_mediana_ms": 1.97,
-      "cpu_mediana_ms": 1.69,
-      "ram_rss_max_mib": 82.35,
-      "ram_aumento_max_mib": 0.25
+      "tiempo_mediana_ms": 1.33,
+      "cpu_mediana_ms": 0.9,
+      "ram_rss_max_mib": 82.2,
+      "ram_aumento_max_mib": 0.0
     }
   ],
   "carga": [
@@ -68,7 +68,7 @@
       "oleadas": 5,
       "sesiones_correctas": 5,
       "errores": {},
-      "p95_ms": 122.17,
+      "p95_ms": 125.57,
       "sesiones_por_segundo": 8.59,
       "cumple": true
     },
@@ -77,8 +77,8 @@
       "oleadas": 5,
       "sesiones_correctas": 25,
       "errores": {},
-      "p95_ms": 341.43,
-      "sesiones_por_segundo": 14.83,
+      "p95_ms": 306.62,
+      "sesiones_por_segundo": 16.91,
       "cumple": true
     },
     {
@@ -86,8 +86,8 @@
       "oleadas": 5,
       "sesiones_correctas": 50,
       "errores": {},
-      "p95_ms": 590.8,
-      "sesiones_por_segundo": 17.77,
+      "p95_ms": 609.99,
+      "sesiones_por_segundo": 17.31,
       "cumple": true
     },
     {
@@ -95,8 +95,8 @@
       "oleadas": 5,
       "sesiones_correctas": 75,
       "errores": {},
-      "p95_ms": 874.22,
-      "sesiones_por_segundo": 17.36,
+      "p95_ms": 987.9,
+      "sesiones_por_segundo": 16.72,
       "cumple": true
     },
     {
@@ -104,8 +104,8 @@
       "oleadas": 5,
       "sesiones_correctas": 100,
       "errores": {},
-      "p95_ms": 1115.36,
-      "sesiones_por_segundo": 17.68,
+      "p95_ms": 1135.65,
+      "sesiones_por_segundo": 17.39,
       "cumple": true
     },
     {
@@ -113,8 +113,8 @@
       "oleadas": 5,
       "sesiones_correctas": 110,
       "errores": {},
-      "p95_ms": 1319.58,
-      "sesiones_por_segundo": 17.15,
+      "p95_ms": 1212.75,
+      "sesiones_por_segundo": 18.15,
       "cumple": true
     },
     {
@@ -122,8 +122,8 @@
       "oleadas": 5,
       "sesiones_correctas": 120,
       "errores": {},
-      "p95_ms": 1381.71,
-      "sesiones_por_segundo": 17.02,
+      "p95_ms": 1376.82,
+      "sesiones_por_segundo": 17.73,
       "cumple": true
     },
     {
@@ -131,26 +131,26 @@
       "oleadas": 5,
       "sesiones_correctas": 130,
       "errores": {},
-      "p95_ms": 1383.97,
-      "sesiones_por_segundo": 18.19,
-      "cumple": true
+      "p95_ms": 1694.69,
+      "sesiones_por_segundo": 15.9,
+      "cumple": false
     },
     {
       "usuarios_simultaneos": 28,
       "oleadas": 5,
       "sesiones_correctas": 140,
       "errores": {},
-      "p95_ms": 1467.63,
-      "sesiones_por_segundo": 18.29,
-      "cumple": true
+      "p95_ms": 1616.06,
+      "sesiones_por_segundo": 16.98,
+      "cumple": false
     },
     {
       "usuarios_simultaneos": 30,
       "oleadas": 5,
       "sesiones_correctas": 150,
       "errores": {},
-      "p95_ms": 1630.37,
-      "sesiones_por_segundo": 17.7,
+      "p95_ms": 1742.42,
+      "sesiones_por_segundo": 17.45,
       "cumple": false
     },
     {
@@ -158,8 +158,8 @@
       "oleadas": 5,
       "sesiones_correctas": 175,
       "errores": {},
-      "p95_ms": 1879.7,
-      "sesiones_por_segundo": 17.89,
+      "p95_ms": 2007.22,
+      "sesiones_por_segundo": 17.08,
       "cumple": false
     },
     {
@@ -167,10 +167,10 @@
       "oleadas": 5,
       "sesiones_correctas": 200,
       "errores": {},
-      "p95_ms": 2109.54,
-      "sesiones_por_segundo": 18.58,
+      "p95_ms": 2403.69,
+      "sesiones_por_segundo": 16.57,
       "cumple": false
     }
   ],
-  "maximo_nivel_validado": 28
+  "maximo_nivel_validado": 24
 }
