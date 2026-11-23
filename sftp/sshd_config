@@ -1,0 +1,18 @@
+Port 22
+HostKey /etc/ssh/host/ssh_host_ed25519_key
+AuthorizedKeysFile /etc/ssh/keys/%u
+PubkeyAuthentication yes
+PasswordAuthentication no
+KbdInteractiveAuthentication no
+AuthenticationMethods publickey
+PermitRootLogin no
+AllowUsers web
+UsePAM no
+DisableForwarding yes
+PermitTTY no
+X11Forwarding no
+Subsystem sftp internal-sftp
+
+Match User web
+    ChrootDirectory /srv/sftp/web
+    ForceCommand internal-sftp -d /entrega -u 027

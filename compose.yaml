@@ -1,0 +1,75 @@
+name: proyecto-examen-asi
+
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: asi
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Ejecuta ./scripts/preparar.sh}
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD:?}
+      ADMIN_WEB_HASH: ${ADMIN_WEB_HASH:?}
+      CONSULTA_WEB_HASH: ${CONSULTA_WEB_HASH:?}
+    volumes:
+      - datos:/var/lib/postgresql/data
+      - ./db/iniciar.sh:/docker-entrypoint-initdb.d/01-iniciar.sh:ro
+    command: [postgres, -c, shared_buffers=64MB, -c, max_connections=40]
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -h 127.0.0.1 -U postgres -d asi']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    cpus: 1.0
+    mem_limit: 320m
+    restart: unless-stopped
+
+  app:
+    build: ./app
+    environment:
+      PGHOST: db
+      PGDATABASE: asi
+      PGUSER: asi_web
+      PGPASSWORD: ${APP_DB_PASSWORD:?}
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:3000/salud').then(r => { if (!r.ok) process.exitCode = 1 }).catch(() => { process.exitCode = 1 })"]
+      interval: 3s
+      timeout: 3s
+      retries: 15
+    cpus: 2.0
+    mem_limit: 384m
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    depends_on:
+      app:
+        condition: service_healthy
+    ports:
+      - "${IP_ESCUCHA:-127.0.0.1}:443:443"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d:ro
+      - ./app/public:/srv/estaticos:ro
+      - ./.asilab/tls/servidor.crt:/etc/nginx/tls/servidor.crt:ro
+      - ./.asilab/tls/servidor.key:/etc/nginx/tls/servidor.key:ro
+    restart: unless-stopped
+
+  sftp:
+    build: ./sftp
+    environment:
+      ADMIN_CONSOLA: ${ADMIN_CONSOLA:?}
+      WEB_CONSOLA: ${WEB_CONSOLA:?}
+    ports:
+      - "${IP_ESCUCHA:-127.0.0.1}:${PUERTO_SFTP:-2222}:22"
+    volumes:
+      - ./.asilab/web.pub:/entrada/web.pub:ro
+      - ./.asilab/ssh-host:/etc/ssh/host
+      - entregas:/srv/sftp/web/entrega
+    restart: unless-stopped
+
+volumes:
+  datos:
+  entregas:

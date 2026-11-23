@@ -1,0 +1,43 @@
+Chrome validó HTTPS y completó el inicio y cierre de sesión de los dos perfiles.
+Dominio resuelve a 127.0.0.1; TLS valida CA y nombre; formulario HTTP 200
+Listado protegido; credenciales incorrectas 401; formulario de otro origen 403
+Consulta: inicia sesión, ve los cuatro artículos y recibe 403 en Existencias
+Cerrar sesión invalida la cookie anterior
+Administrador: inicia sesión, ve Artículos y abre Existencias
+sftp> pwd
+Remote working directory: /entrega
+sftp> cd /
+sftp> ls
+entrega
+sftp> cd /entrega
+sftp> put /tmp/tmp.jsfA0QFI9v/entrada prueba-1795469322-34705.txt
+sftp> get prueba-1795469322-34705.txt /tmp/tmp.jsfA0QFI9v/salida
+sftp> rm prueba-1795469322-34705.txt
+SFTP: llave válida y contenido de subida y descarga idéntico
+Jaula: /etc/passwd del servidor no está disponible para web
+This service allows sftp connections only.
+PTY allocation request failed on channel 0
+web@proyecto.final.asi: Permission denied (publickey).
+SSH: terminal, comandos y autenticación sin llave rechazados
+PostgreSQL 17.12 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+administrador
+consulta
+4
+passwordauthentication no
+kbdinteractiveauthentication no
+permittty no
+forcecommand internal-sftp -d /entrega -u 027
+chrootdirectory /srv/sftp/web
+authenticationmethods publickey
+Connecting to 127.0.0.1
+CONNECTION ESTABLISHED
+Protocol version: TLSv1.3
+Ciphersuite: TLS_AES_256_GCM_SHA384
+Peer certificate: CN=proyecto.final.asi
+Hash used: SHA256
+Signature type: ecdsa_secp256r1_sha256
+Verification: OK
+Verified peername: proyecto.final.asi
+Negotiated TLS1.3 group: X25519MLKEM768
+DONE
+admin sudo
