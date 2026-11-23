@@ -44,15 +44,15 @@ services:
     restart: unless-stopped
 
   nginx:
-    image: nginx:alpine
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
     depends_on:
       app:
         condition: service_healthy
     ports:
       - "${IP_ESCUCHA:-127.0.0.1}:443:443"
     volumes:
-      - ./nginx:/etc/nginx/conf.d:ro
-      - ./app/public:/srv/estaticos:ro
       - ./.asilab/tls/servidor.crt:/etc/nginx/tls/servidor.crt:ro
       - ./.asilab/tls/servidor.key:/etc/nginx/tls/servidor.key:ro
     restart: unless-stopped

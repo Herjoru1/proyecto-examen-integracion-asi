@@ -1,0 +1,6 @@
+*
+!nginx/
+!nginx/default.conf
+!app/
+!app/public/
+!app/public/estilos.css
